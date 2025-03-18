@@ -16,12 +16,12 @@ const store = createStore()
 const initDb = async () => {
   (await db).execAsync(`
     CREATE TABLE IF NOT EXISTS cooperatives (
-      id TEXT PRIMARY KEY,
-      cooperative_name TEXT NOT NULL,
-      cooperative_address TEXT,
-      date_creation INTEGER NOT NULL
-    )
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT)
+      INSERT INTO cooperatives (name) VALUES ('Expo SQLite Test');
   `)
+  const results = (await db).getAllAsync<Cooperative>('SELECT * FROM cooperatives');
+  console.log('📦 Résultats de la base de données:', results);
 }
 
 const loadLocalData = async () => {
@@ -56,7 +56,7 @@ const loadLocalData = async () => {
 export default function TabTwoScreen() {
   useEffect(()=>{
     initDb()
-    loadLocalData()
+    // loadLocalData()
   })
   return (
     <Text>SALUT</Text>
