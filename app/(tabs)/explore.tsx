@@ -1,5 +1,5 @@
 import { StyleSheet, Image, Platform, View, Button, FlatList, Text } from 'react-native';
-import { Cell, createStore } from 'tinybase/store';
+import { createStore } from 'tinybase/store';
 import * as SQLite from 'expo-sqlite'
 import { useEffect } from 'react';
 
@@ -52,12 +52,12 @@ const loadLocalData = async () => {
   }
 };
 
-useEffect(()=>{
-  initDb()
-  loadLocalData()
-})
 
 export default function TabTwoScreen() {
+  useEffect(()=>{
+    initDb()
+    loadLocalData()
+  })
   return (
     <Text>SALUT</Text>
     
