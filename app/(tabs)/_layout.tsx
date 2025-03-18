@@ -41,7 +41,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="costumer"
+        name="parking"
         options={{
           title: 'Parking',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="parkingsign.circle.fill" color={color} />,
