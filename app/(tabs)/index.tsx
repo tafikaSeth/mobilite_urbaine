@@ -1,74 +1,131 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import { FontAwesome5, MaterialIcons, Feather } from "@expo/vector-icons";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+`;
 
-export default function HomeScreen() {
+const Title = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 5px;
+`;
+
+const Subtitle = styled.Text`
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 20px;
+`;
+
+const InputContainer = styled.View`
+  width: 100%;
+  margin-bottom: 15px;
+`;
+
+const InputWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 10px;
+`;
+
+const Input = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  margin-left: 10px;
+`;
+
+const CheckboxContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const TermsText = styled.Text`
+  font-size: 12px;
+  color: #999;
+`;
+
+const TermsLink = styled.Text`
+  color: red;
+`;
+
+const Button = styled.TouchableOpacity`
+  width: 100%;
+  background-color: #ff3b3f;
+  padding: 15px;
+  border-radius: 10px;
+  align-items: center;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+`;
+
+const Footer = styled.Text`
+  margin-top: 20px;
+  color: #999;
+`;
+
+const LoginLink = styled.Text`
+  color: red;
+`;
+
+const RegisterScreen = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <Container>
+      <Title>Payement</Title>
+      <Subtitle>payanle via mobile money</Subtitle>
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+      <InputContainer>
+        <InputWrapper>
+          <FontAwesome5 name="user" size={20} color="#999" />
+          <Input placeholder="Matricule voiture" />
+        </InputWrapper>
+      </InputContainer>
+
+      <InputContainer>
+        <InputWrapper>
+          <MaterialIcons name="email" size={20} color="#999" />
+          <Input placeholder="email pour envoye doc" keyboardType="email-address" />
+        </InputWrapper>
+      </InputContainer>
+      <InputContainer>
+        <InputWrapper>
+          <FontAwesome5 name="lock" size={20} color="#999" />
+          <Input placeholder="label" secureTextEntry />
+        </InputWrapper>
+      </InputContainer>
+      <InputContainer>
+        <InputWrapper>
+          <Feather name="phone" size={20} color="#999" />
+          <Input placeholder="montant" keyboardType="phone-pad" />
+        </InputWrapper>
+      </InputContainer>
+
+      
+
+
+
+      <Button>
+        <ButtonText>Payer maintenant  →</ButtonText>
+      </Button>
+
+
+    </Container>
+  );
+};
+
+export default RegisterScreen;
