@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TextInput, FlatList, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, FlatList, Image, TouchableOpacity, Modal } from "react-native";
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -7,30 +7,22 @@ const data = [
   {
     id: "1",
     name: "Graha Mall",
-    address: "123 Dhaka Street",
-    price: "$7/hour",
+    address: "034 45 171 67",
+    price: "7 000 ar/heure",
     time: "7 min",
-    image: "https://source.unsplash.com/100x100/?parking", 
-  },
-  {
-    id: "2",
-    name: "Graha Mall",
-    address: "123 Dhaka Street",
-    price: "$7/hour",
-    time: "7 min",
-    image: "https://source.unsplash.com/100x100/?garage",
-  },
-  {
-    id: "3",
-    name: "Graha Mall",
-    address: "123 Dhaka Street",
-    price: "$7/hour",
-    time: "7 min",
-    image: "https://source.unsplash.com/100x100/?carpark",
+    image: require("../../assets/images/user.jpg"),
   },
 ];
 
 const ExploreScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    price: "",
+    time: "",
+  });
+
   return (
     <Container>
       <Title>Gestion Parking</Title>
@@ -38,8 +30,6 @@ const ExploreScreen = () => {
         <Icon name="search" size={20} color="#8A96BC" />
         <SearchInput placeholder="Search" placeholderTextColor="#8A96BC" />
       </SearchBar>
-
-      {/* Tabs */}
       <TabContainer>
         <ActiveTab>
           <TabTextActive>Aujourd'hui</TabTextActive>
@@ -48,14 +38,12 @@ const ExploreScreen = () => {
         <TabText>Terminé</TabText>
         <TabText>Depassé</TabText>
       </TabContainer>
-
-      {/* List */}
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Card>
-            <CardImage source={{ uri: item.image }} />
+            <CardImage source={item.image} />
             <CardContent>
               <CardTitle>{item.name}</CardTitle>
               <CardAddress>{item.address}</CardAddress>
@@ -71,9 +59,46 @@ const ExploreScreen = () => {
       />
 
       {/* Floating Button */}
-      <FloatingButton>
-        <Icon name="options-outline" size={24} color="#fff" />
+      <FloatingButton onPress={() => setModalVisible(true)}>
+        <Icon name="add" size={24} color="#fff" />
       </FloatingButton>
+
+      {/* Modal */}
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <ModalContainer>
+          <ModalContent>
+            <ModalTitle>Ajouter un parking</ModalTitle>
+            <StyledInput
+              placeholder="Nom"
+              value={formData.name}
+              onChangeText={(text) => setFormData({ ...formData, name: text })}
+            />
+            <StyledInput
+              placeholder="Adresse"
+              value={formData.address}
+              onChangeText={(text) => setFormData({ ...formData, address: text })}
+            />
+            <StyledInput
+              placeholder="Prix"
+              value={formData.price}
+              onChangeText={(text) => setFormData({ ...formData, price: text })}
+            />
+            <StyledInput
+              placeholder="Temps"
+              value={formData.time}
+              onChangeText={(text) => setFormData({ ...formData, time: text })}
+            />
+            <ButtonRow>
+              <ModalButton onPress={() => setModalVisible(false)}>
+                <ButtonText>Annuler</ButtonText>
+              </ModalButton>
+              <ModalButton onPress={() => setModalVisible(false)}>
+                <ButtonText>Ajouter</ButtonText>
+              </ModalButton>
+            </ButtonRow>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
     </Container>
   );
 };
@@ -106,41 +131,7 @@ const SearchBar = styled.View`
 const SearchInput = styled.TextInput`
   flex: 1;
   margin-left: 10px;
-  color: #8A96BC;
-`;
-
-const TabContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 15px;
-`;
-
-const ActiveTab = styled.View`
-  background-color: #13131a;
-  padding: 10px 15px;
-  border-radius: 10px;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 10px;
-`;
-
-const TabTextActive = styled.Text`
-  color: #fff;
-  font-weight: bold;
-`;
-
-const RedDot = styled.View`
-  width: 6px;
-  height: 6px;
-  background-color: red;
-  border-radius: 3px;
-  margin-left: 5px;
-`;
-
-const TabText = styled.Text`
-  color: #8A96BC;
-  font-weight: bold;
-  margin-right: 10px;
+  color: #8a96bc;
 `;
 
 const Card = styled.View`
@@ -176,6 +167,7 @@ const CardAddress = styled.Text`
   color: gray;
   font-size: 14px;
 `;
+
 
 const CardRow = styled.View`
   flex-direction: row;
@@ -213,3 +205,81 @@ const FloatingButton = styled.TouchableOpacity`
   justify-content: center;
   elevation: 5;
 `;
+const TabContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+const ActiveTab = styled.View`
+  background-color: #13131a;
+  padding: 10px 15px;
+  border-radius: 10px;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+`;
+
+const TabTextActive = styled.Text`
+  color: #fff;
+  font-weight: bold;
+`;
+
+const RedDot = styled.View`
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 3px;
+  margin-left: 5px;
+`;
+
+const TabText = styled.Text`
+  color: #8A96BC;
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalContent = styled.View`
+  width: 80%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+`;
+
+const ModalTitle = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const StyledInput = styled.TextInput`
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+`;
+
+const ButtonRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ModalButton = styled.TouchableOpacity`
+  padding: 10px 20px;
+  background-color: ${(props: any) => (props.primary ? "#13131a" : "#ccc")};
+  border-radius: 5px;
+`;
+
+const ButtonText = styled.Text`
+  color: ${(props: any) => (props.primary ? "white" : "black")};
+  font-weight: bold;
+`;
+
+
