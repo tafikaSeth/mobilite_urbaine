@@ -10,7 +10,7 @@ const data = [
     address: "034 45 171 67",
     price: "7 000 ar/heure",
     time: "7 min",
-    image: require("../../assets/images/user.jpg"),
+    image: require("../assets/images/user.jpg"),
   },
 ];
 

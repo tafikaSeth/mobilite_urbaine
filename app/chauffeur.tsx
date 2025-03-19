@@ -1,8 +1,8 @@
 import { View, StyleSheet, Text } from "react-native"
 
-export default function ParkingView() {
+export default function Chauffeur() {
     <View style={styles.container}>
-        <Text>Client</Text>
+        <Text>Chauffeur</Text>
     </View>
 }
 

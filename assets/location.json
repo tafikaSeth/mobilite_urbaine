@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "latitude": -21.461881,
+      "longitude": 47.103745,
+      "title": "LOCATION",
+      "description": "Camion",
+      "image": "camion"
+    },
+    {
+      "id": 2,
+      "latitude": -21.450023,
+      "longitude": 47.083122,
+      "title": "LOCATION",
+      "description": "plaisir",
+      "image": "location"
+    },
+    {
+    "id": 3,
+    "latitude": -21.445779,
+    "longitude": 47.107192,
+    "title": "LOCATION",
+    "description": "Moto",
+    "image": "moto"
+  }
+]
+  

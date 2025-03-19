@@ -1,25 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, Animated, TouchableOpacity, Image, Alert, Button, TextInput} from 'react-native';
+import { StyleSheet, View, Text, Animated, TouchableOpacity, Image, Alert, Button, TextInput, Pressable} from 'react-native';
 import MapView, { Marker, Polygon, Polyline, Region } from 'react-native-maps';
 import* as Location from 'expo-location'
 import { fetchRoute, RouteData } from '@/components/utils/fetchRoute';
-import geojsonData from '../assets/fokotany.json';
+import geojsonData from '../assets/fokotany.json'
 import { mapStyle } from '@/assets/style/mapStyle';
-import covoiturages from '../assets/covoiturage.json';
+import locations from '../assets/location.json'
 import { fetchAdress } from '@/components/utils/fetchAdress';
 import { searchFKT } from '@/components/utils/searchFKT';
-import LoadingPosition from '@/components/utils/loadingPostion';
+// import LoadingPosition from '@/components/utils/loadingPostion';
 
 type LocationType = {
   latitude : number;
   longitude : number;
 }
 const imageMap: Record<string, any> = {
-  bus: require('../assets/icons/bus.png'),
-  taxi : require('../assets/icons/taxi.png'),
+  location: require('../assets/icons/location.png'),
+  camion : require('../assets/icons/camion.png'),
+  moto : require('../assets/icons/moto.png')
 };
 
-export default function MapeCovoiturage () {
+export default function Mape () {
   const mapRef = useRef<MapView>(null)
   const [userLocation, setUserLocation] = useState<LocationType | null>(null);
   const [routeCoordinates, setRouteCoordinates] = useState<LocationType[]>([]);
@@ -37,15 +38,22 @@ export default function MapeCovoiturage () {
     Alert.alert(`Quartier de ${libFkt}`);
   }
 
+  const showChat = () => {
+    Animated.timing(infoBoxAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }
   const handleSearch = () => {
     const result = searchFKT(geojsonData, searchTerm);
     if (result) {
       setSelectedPolygon(result);
-      console.log("teste" + selectedPolygon);
+      console.log("ty" + selectedPolygon);
       
     } else {
       alert('Aucun résultat trouvé');
-      setSelectedPolygon(null);
+      setSelectedPolygon(null); // Réinitialiser la sélection si aucun résultat n'est trouvé
     }
     
   }
@@ -55,6 +63,7 @@ export default function MapeCovoiturage () {
   const convert = () => {
     geojsonData.features.forEach((feature, index) => {
       const { geometry, properties } = feature;
+      // console.log("FORY"+properties.LIB_FKT + JSON.stringify(geometry.coordinates));
       
       if (geometry.type === 'MultiPolygon') {
         geometry.coordinates.forEach((polygon, polygonIndex) => {
@@ -164,9 +173,9 @@ export default function MapeCovoiturage () {
     fetchUserLocation();
     }, [])
 
-    if (loading || loadingDelay) {
-      return <LoadingPosition/>
-    }
+    // if (loading || loadingDelay) {
+    //   return <LoadingPosition/>
+    // }
   
     if (errorMsg) {
       return (
@@ -232,20 +241,20 @@ export default function MapeCovoiturage () {
           />
         )}
 
-        { covoiturages.map((covoiturage) => (
+        { locations.map((location) => (
             <Marker
-              key = {covoiturage.id}
+              key = {location.id}
               coordinate={{
-                latitude : covoiturage.latitude,
-                longitude: covoiturage.longitude
+                latitude : location.latitude,
+                longitude: location.longitude
               }}
-              title = {covoiturage.title.toString()}
-              // description = {covoiturage.description} 
-              onPress = {() => handleRouteFetch({ latitude: covoiturage.latitude, longitude: covoiturage.longitude})}
+              title = {location.title}
+              description = {location.description} 
+              onPress = {() => handleRouteFetch({ latitude: location.latitude, longitude: location.longitude})}
             >
               <Image
-                source={imageMap[covoiturage.image]}
-                style={styles.markerImage}
+                source={imageMap[location.image]}
+                style={styles.markerImage} // Appliquer les styles pour ajuster la taille
                 resizeMode="contain"
               />
             </Marker>
@@ -281,16 +290,20 @@ export default function MapeCovoiturage () {
           Distance : {(distance! / 1000).toFixed(2)} km
         </Text>
         <Text style={styles.infoText}>
-          Temps estimé : {duration!/60} minutes
+          Durée en voiture : {formatDuration(duration!)}
         </Text>
         <Text style={styles.infoText}>
-          Adresse Parking: {address}
+          Adresse: {address}
         </Text>
-        <TouchableOpacity style={styles.resetButton} onPress={resetRoute}>
-          <Text style={styles.resetButtonText}>Autre Parking</Text>
-        </TouchableOpacity>
+        <Text style={styles.infoText}>
+          Contact : 0384816313
+        </Text>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.resetButton} onPress={resetRoute}>
+            <Text style={styles.resetButtonText}>Autre Bus</Text>
+          </TouchableOpacity>
+        </View>
       </Animated.View>
-
       </View>
     )
 }
@@ -345,7 +358,7 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 5,
     left: 20,
     right: 20,
     backgroundColor: 'white',
@@ -367,6 +380,7 @@ const styles = StyleSheet.create({
     marginTop: 10, // Espacement avec le contenu précédent
   },
   resetButton: {
+    width: '40%',
     backgroundColor: '#c90d0d',
     padding: 10,
     borderRadius: 5,
@@ -375,5 +389,5 @@ const styles = StyleSheet.create({
   resetButtonText: {
     color: 'white',
     fontWeight: 'bold',
-  },
+  }
 })

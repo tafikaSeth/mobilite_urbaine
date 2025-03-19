@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, Dimensions, Animated } from 'react-native';
 import { Camera, CameraView } from 'expo-camera';
-import QRResult from '../result';
+import QRResult from './(tabs)/result';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
