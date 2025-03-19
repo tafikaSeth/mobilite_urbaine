@@ -2,6 +2,7 @@ import { Image, StyleSheet, Platform, View, Text } from 'react-native';
 import { initDatabase } from '../database/database';
 import { useAsync } from '../hooks/useSync';
 import { useEffect } from 'react';
+import MapeCovoiturage from '../mapCovoiturage';
 
 export default function HomeScreen() {
 
@@ -11,8 +12,8 @@ export default function HomeScreen() {
 
   useAsync()
   return (
-    <View>
-      <Text>OFFLINE FIRST</Text>
+    <View style={{flex: 1}}>
+      <MapeCovoiturage/>
     </View>
   );
 }
