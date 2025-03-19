@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "latitude": -19.8678520,
+      "longitude": 47.0356853,
+      "title": 2,
+      "description": "BUS",
+      "image": "bus"
+    },
+    {
+      "id": 2,
+      "latitude": -19.8678980,
+      "longitude": 47.0363552,
+      "title": 2,
+      "description": "BUS",
+      "image": "bus"
+    },
+    {
+    "id": 3,
+    "latitude": -19.8675890,
+    "longitude": 47.0356558,
+    "title": 5,
+    "description": "taxi ville",
+    "image": "taxi"
+  }
+]
+  
