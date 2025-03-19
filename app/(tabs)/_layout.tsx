@@ -31,7 +31,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Map',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={28} color={color} />, // Icône carte de crédit
+          tabBarIcon: ({ color }) => <Ionicons name="map" size={28} color={color} />, // Icône carte de crédit
         }}
       />
       <Tabs.Screen
@@ -53,6 +53,13 @@ export default function TabLayout() {
         options={{
           title: 'Scanner',
           tabBarIcon: ({ color }) => <Ionicons name="qr-code" size={28} color={color} />, // Icône QR code pour scanner
+        }}
+      />
+      <Tabs.Screen
+        name="cooperative"
+        options={{
+          title: 'Cooperative',
+          tabBarIcon: ({ color }) => <Ionicons name="bus" size={28} color={color} />, // Icône QR code pour scanner
         }}
       />
     </Tabs>

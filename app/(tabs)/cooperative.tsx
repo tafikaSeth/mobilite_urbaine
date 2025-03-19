@@ -3,100 +3,59 @@ import { View, Text, TextInput, FlatList, Image, TouchableOpacity, Modal } from 
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const data = [
+// Données pour la liste des transports
+const transportData = [
   {
     id: "1",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
+    name: "1254 FC",
+    address: "Ligne 2",
+    price: "Mr Mika NIVOARIJAONA",
     time: "7 min",
-    image: require("../../assets/images/user.jpg"),
+    image: require("../../assets/images/bus.jpg"),
   },
   {
     id: "2",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
+    name: "1254 FC",
+    address: "Ligne 2",
+    price: "Mr Mika NIVOARIJAONA",
     time: "7 min",
-    image: require("../../assets/images/user.jpg"),
+    image: require("../../assets/images/bus.jpg"),
   },
   {
     id: "3",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
+    name: "1254 FC",
+    address: "Ligne 2",
+    price: "Mr Mika NIVOARIJAONA",
     time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "4",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "5",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "6",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "7",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "8",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "9",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "10",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
-  },
-  {
-    id: "11",
-    name: "1234 FC",
-    address: "034 45 171 67",
-    price: "voiture",
-    time: "7 min",
-    image: require("../../assets/images/user.jpg"),
+    image: require("../../assets/images/bus.jpg"),
   },
 ];
 
-const ExploreScreen = () => {
+// Données pour la liste des lignes
+const lineData = [
+  {
+    id: "1",
+    name: "Ligne 1",
+    description: "Antananarivo - Antsirabe",
+    image: require("../../assets/images/line.jpg"),
+  },
+  {
+    id: "2",
+    name: "Ligne 2",
+    description: "Antananarivo - Toamasina",
+    image: require("../../assets/images/line.jpg"),
+  },
+  {
+    id: "3",
+    name: "Ligne 3",
+    description: "Antananarivo - Fianarantsoa",
+    image: require("../../assets/images/line.jpg"),
+  },
+];
+
+const Cooperative = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState<"today" | "past">("today");
+  const [activeTab, setActiveTab] = useState<"transports" | "lignes">("transports"); // État pour gérer l'onglet actif
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -106,53 +65,67 @@ const ExploreScreen = () => {
 
   return (
     <Container>
-      <Title>Gestion Parking</Title>
+      <Title>Gestion Voiture</Title>
+      <SearchBar>
+        <Icon name="search" size={20} color="#8A96BC" />
+        <SearchInput placeholder="Search" placeholderTextColor="#8A96BC" />
+      </SearchBar>
       <TabContainer>
-        <TouchableOpacity onPress={() => setActiveTab("today")}>
-          {activeTab === "today" ? (
+        <TouchableOpacity onPress={() => setActiveTab("transports")}>
+          {activeTab === "transports" ? (
             <ActiveTab>
-              <TabTextActive>4 parking disponibles</TabTextActive>
+              <TabTextActive>Liste des transports</TabTextActive>
               <RedDot />
             </ActiveTab>
           ) : (
-            <TabText>4 parking disponibles</TabText>
+            <TabText>Liste des transports</TabText>
           )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab("past")}>
-          {activeTab === "past" ? (
+        <TouchableOpacity onPress={() => setActiveTab("lignes")}>
+          {activeTab === "lignes" ? (
             <ActiveTab>
+              <TabTextActive>Liste des lignes</TabTextActive>
               <RedDot />
-              <TabTextActive>11 / 15</TabTextActive>
             </ActiveTab>
           ) : (
-            <TabText>11 / 15</TabText>
+            <TabText>Liste des lignes</TabText>
           )}
         </TouchableOpacity>
       </TabContainer>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Card>
-            <CardImage source={item.image} />
-            <CardContent>
-              <CardHeader>
+
+      {/* Affichage conditionnel des listes */}
+      {activeTab === "transports" ? (
+        <FlatList
+          data={transportData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card>
+              <CardImage source={item.image} />
+              <CardContent>
                 <CardTitle>{item.name}</CardTitle>
-                <AddButton onPress={() => alert("Message de notification envoyer a " + item.address)}>
-                <ButtonText>Notifier</ButtonText>
-                </AddButton>
-              </CardHeader>
-              <CardAddress>{item.address}</CardAddress>
-              <CardRow>
-                <CardPrice>{item.price}</CardPrice>
-                <TimeBadge>
-                  <TimeText>{item.time}</TimeText>
-                </TimeBadge>
-              </CardRow>
-            </CardContent>
-          </Card>
-        )}
-      />
+                <CardAddress>{item.address}</CardAddress>
+                <CardRow>
+                  <CardPrice>{item.price}</CardPrice>
+                </CardRow>
+              </CardContent>
+            </Card>
+          )}
+        />
+      ) : (
+        <FlatList
+          data={lineData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card>
+              <CardImage source={item.image} />
+              <CardContent>
+                <CardTitle>{item.name}</CardTitle>
+                <CardAddress>{item.description}</CardAddress>
+              </CardContent>
+            </Card>
+          )}
+        />
+      )}
 
       {/* Floating Button */}
       <FloatingButton onPress={() => setModalVisible(true)}>
@@ -163,19 +136,19 @@ const ExploreScreen = () => {
       <Modal visible={modalVisible} transparent animationType="slide">
         <ModalContainer>
           <ModalContent>
-            <ModalTitle>Attribuer une parking</ModalTitle>
+            <ModalTitle>Ajouter un transport</ModalTitle>
             <StyledInput
-              placeholder="Type"
+              placeholder="Matricule bus"
               value={formData.name}
               onChangeText={(text) => setFormData({ ...formData, name: text })}
             />
             <StyledInput
-              placeholder="Matricule transport"
+              placeholder="Ligne"
               value={formData.address}
               onChangeText={(text) => setFormData({ ...formData, address: text })}
             />
             <StyledInput
-              placeholder="Telephone chauffeur"
+              placeholder="Chauffeur"
               value={formData.price}
               onChangeText={(text) => setFormData({ ...formData, price: text })}
             />
@@ -195,13 +168,12 @@ const ExploreScreen = () => {
   );
 };
 
-export default ExploreScreen;
+export default Cooperative;
 
-// Styled Components
+// Styled Components (inchangés)
 const Container = styled.View`
   flex: 1;
   background-color: #f5f6fa;
-  margin-top: 24px;
   padding: 20px;
 `;
 
@@ -210,6 +182,21 @@ const Title = styled.Text`
   font-weight: bold;
   text-align: center;
   margin-bottom: 15px;
+`;
+
+const SearchBar = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: #e8eaf6;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+`;
+
+const SearchInput = styled.TextInput`
+  flex: 1;
+  margin-left: 10px;
+  color: #8a96bc;
 `;
 
 const Card = styled.View`
@@ -236,12 +223,6 @@ const CardContent = styled.View`
   margin-left: 10px;
 `;
 
-const CardHeader = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const CardTitle = styled.Text`
   font-size: 16px;
   font-weight: bold;
@@ -260,29 +241,9 @@ const CardRow = styled.View`
 `;
 
 const CardPrice = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: red;
-`;
-
-const TimeBadge = styled.View`
-  background-color: #ffebee;
-  padding: 5px 10px;
-  border-radius: 15px;
-`;
-
-const TimeText = styled.Text`
-  color: red;
   font-size: 12px;
   font-weight: bold;
-`;
-
-const AddButton = styled.TouchableOpacity`
-  background-color:rgb(209, 0, 0);
-  padding: 8px 16px;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
+  color: rgb(152, 152, 152);
 `;
 
 const FloatingButton = styled.TouchableOpacity`
@@ -299,8 +260,8 @@ const FloatingButton = styled.TouchableOpacity`
 
 const TabContainer = styled.View`
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 15px;
 `;
 
@@ -371,6 +332,6 @@ const ModalButton = styled.TouchableOpacity`
 `;
 
 const ButtonText = styled.Text`
-  color: white;
+  color: ${(props: any) => (props.primary ? "white" : "black")};
   font-weight: bold;
 `;

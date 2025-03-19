@@ -3,9 +3,14 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { FontAwesome5, MaterialIcons, Feather } from "@expo/vector-icons";
 
+// Définir une interface pour les props de ToggleButton
+interface ToggleButtonProps {
+  isActive: boolean;
+}
+
 const Container = styled.View`
   flex: 1;
-  justify-content: center;
+  margin-top: 24px;
   align-items: center;
   background-color: #fff;
   padding: 20px;
@@ -43,21 +48,6 @@ const Input = styled.TextInput`
   margin-left: 10px;
 `;
 
-const CheckboxContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const TermsText = styled.Text`
-  font-size: 12px;
-  color: #999;
-`;
-
-const TermsLink = styled.Text`
-  color: red;
-`;
-
 const Button = styled.TouchableOpacity`
   width: 100%;
   background-color: #ff3b3f;
@@ -72,58 +62,104 @@ const ButtonText = styled.Text`
   font-weight: bold;
 `;
 
-const Footer = styled.Text`
-  margin-top: 20px;
-  color: #999;
+const ToggleContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  background-color:#f5f5f5;
+  border-radius: 16px;
+  margin-bottom: 20px;
 `;
 
-const LoginLink = styled.Text`
-  color: red;
+// Appliquer l'interface ToggleButtonProps au composant ToggleButton
+const ToggleButton = styled.TouchableOpacity<ToggleButtonProps>`
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  align-items: center;
+  background-color: ${(props) => (props.isActive ? "#ff3b3f" : "#f5f5f5")};
+  margin: 5px;
+`;
+
+const ToggleButtonText = styled.Text<ToggleButtonProps>`
+  font-size: 16px;
+  color: ${(props) => (props.isActive ? "#fff" : "#000")};
+  font-weight: bold;
 `;
 
 const RegisterScreen = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isAmande, setIsAmande] = useState(true);
+
+  const toggleForm = (selected: string) => {
+    setIsAmande(selected === "Amande");
+  };
 
   return (
     <Container>
       <Title>Payement</Title>
-      <Subtitle>payanle via mobile money</Subtitle>
+      <Subtitle>payable via mobile money</Subtitle>
 
-      <InputContainer>
-        <InputWrapper>
-          <FontAwesome5 name="user" size={20} color="#999" />
-          <Input placeholder="Matricule voiture" />
-        </InputWrapper>
-      </InputContainer>
+      {/* Boutons Toggle */}
+      <ToggleContainer>
+        <ToggleButton
+          isActive={isAmande}
+          onPress={() => toggleForm("Amande")}
+        >
+          <ToggleButtonText isActive={isAmande}>Amande</ToggleButtonText>
+        </ToggleButton>
+        <ToggleButton
+          isActive={!isAmande}
+          onPress={() => toggleForm("Licence")}
+        >
+          <ToggleButtonText isActive={!isAmande}>Licence</ToggleButtonText>
+        </ToggleButton>
+      </ToggleContainer>
 
-      <InputContainer>
-        <InputWrapper>
-          <MaterialIcons name="email" size={20} color="#999" />
-          <Input placeholder="email pour envoye doc" keyboardType="email-address" />
-        </InputWrapper>
-      </InputContainer>
-      <InputContainer>
-        <InputWrapper>
-          <FontAwesome5 name="lock" size={20} color="#999" />
-          <Input placeholder="label" secureTextEntry />
-        </InputWrapper>
-      </InputContainer>
-      <InputContainer>
-        <InputWrapper>
-          <Feather name="phone" size={20} color="#999" />
-          <Input placeholder="montant" keyboardType="phone-pad" />
-        </InputWrapper>
-      </InputContainer>
+      {/* Formulaire conditionnel */}
+      {isAmande ? (
+        <>
+          <InputContainer>
+            <InputWrapper>
+              <FontAwesome5 name="user" size={20} color="#999" />
+              <Input placeholder="Matricule voiture" />
+            </InputWrapper>
+          </InputContainer>
 
-      
-
-
+          <InputContainer>
+            <InputWrapper>
+              <MaterialIcons name="money" size={20} color="#999" />
+              <Input placeholder="prix" keyboardType="email-address" />
+            </InputWrapper>
+          </InputContainer>
+        </>
+      ) : (
+        <>
+          <InputContainer>
+            <InputWrapper>
+            <MaterialIcons name="email" size={20} color="#999" />
+              <Input placeholder="email pour recevoir le doc" secureTextEntry />
+            </InputWrapper>
+          </InputContainer>
+          <InputContainer>
+            <InputWrapper>
+              <Feather name="file" size={20} color="#999" />
+              <Input placeholder="dossiers pour le renouvelement" keyboardType="phone-pad" />
+            </InputWrapper>
+            
+          </InputContainer>
+          <InputContainer>
+            <InputWrapper>
+            <MaterialIcons name="money" size={20} color="#999" />
+              <Input placeholder="tarif licence" keyboardType="phone-pad" />
+            </InputWrapper>
+            
+          </InputContainer>
+        </>
+      )}
 
       <Button>
         <ButtonText>Payer maintenant  →</ButtonText>
       </Button>
-
-
     </Container>
   );
 };
