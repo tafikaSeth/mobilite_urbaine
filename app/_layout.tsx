@@ -30,8 +30,13 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
+        <Stack.Screen name="index" />
+        <Stack.Screen name="client" options={{headerShown: true, title: "Client"}}/>
+        <Stack.Screen name="cooperative" options={{headerShown: true, title: "Coopeartive"}}/>
+        <Stack.Screen name="parking" options={{headerShown: true, title: "Agent"}}/>
+        <Stack.Screen name="explore" options={{headerShown: true, title: "Proprietaire"}}/>
+        <Stack.Screen name="chauffeur" options={{headerShown: true, title: "Chauffeur"}}/>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
