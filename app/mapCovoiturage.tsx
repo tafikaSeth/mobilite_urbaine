@@ -41,11 +41,11 @@ export default function MapeCovoiturage () {
     const result = searchFKT(geojsonData, searchTerm);
     if (result) {
       setSelectedPolygon(result);
-      console.log("ty" + selectedPolygon);
+      console.log("teste" + selectedPolygon);
       
     } else {
       alert('Aucun résultat trouvé');
-      setSelectedPolygon(null); // Réinitialiser la sélection si aucun résultat n'est trouvé
+      setSelectedPolygon(null);
     }
     
   }
@@ -55,7 +55,6 @@ export default function MapeCovoiturage () {
   const convert = () => {
     geojsonData.features.forEach((feature, index) => {
       const { geometry, properties } = feature;
-      // console.log("FORY"+properties.LIB_FKT + JSON.stringify(geometry.coordinates));
       
       if (geometry.type === 'MultiPolygon') {
         geometry.coordinates.forEach((polygon, polygonIndex) => {
@@ -246,7 +245,7 @@ export default function MapeCovoiturage () {
             >
               <Image
                 source={imageMap[covoiturage.image]}
-                style={styles.markerImage} // Appliquer les styles pour ajuster la taille
+                style={styles.markerImage}
                 resizeMode="contain"
               />
             </Marker>

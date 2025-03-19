@@ -12,7 +12,8 @@ export const useAsync = () => {
             if(!isConnected) {
                 console.log("Pas de connexion");
                 const localData = await getAllParking()
-                console.log(localData);   
+                console.log(localData);
+                return 
             }
             console.log("Connexion detecté");
             const res = await fetchParkingFromApi()
