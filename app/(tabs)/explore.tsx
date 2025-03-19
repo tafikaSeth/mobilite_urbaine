@@ -1,76 +1,131 @@
-import { StyleSheet, Image, Platform, View, Button, FlatList, Text } from 'react-native';
-import { createStore } from 'tinybase/store';
-import * as SQLite from 'expo-sqlite'
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import { FontAwesome5, MaterialIcons, Feather } from "@expo/vector-icons";
 
-interface Cooperative {
-  id: number;
-  name: string;
-}
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+`;
 
-const db = SQLite.openDatabaseAsync('local.db')
-const store = createStore()
+const Title = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 5px;
+`;
 
-const initDb = async () => {
-  (await db).execAsync(`
-    CREATE TABLE IF NOT EXISTS cooperatives (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT)
-      INSERT INTO cooperatives (name) VALUES ('Expo SQLite Test');
-  `)
-  const results = (await db).getAllAsync<Cooperative>('SELECT * FROM cooperatives');
-  console.log('📦 Résultats de la base de données:', results);
-}
+const Subtitle = styled.Text`
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 20px;
+`;
 
-// const loadLocalData = async () => {
-//   try {
-//     const database = await db;
-    
-//     // 1. Correction du type générique (retrait de [])
-//     const results = await database.getAllAsync<Cooperative>(
-//       'SELECT * FROM cooperatives'
-//     );
-    
-//     // 2. Vérification du type des résultats
-//     console.log('Raw results:', results);
+const InputContainer = styled.View`
+  width: 100%;
+  margin-bottom: 15px;
+`;
 
-//     // 3. Itération correctement typée
-//     results.forEach((coop: Cooperative) => {
-//       store.setRow('cooperatives', coop.id, {
-//         id: coop.id,
-//         cooperative_name: coop.cooperative_name,
-//         cooperative_address: coop.cooperative_address,
-//         date_creation: coop.date_creation,
-//         // Ajouter les 3 autres propriétés ici
-//       });
-//     });
-    
-//   } catch (error) {
-//     console.error('Error loading cooperatives:', error);
-//   }
-// };
+const InputWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 10px;
+`;
 
+const Input = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  margin-left: 10px;
+`;
 
-export default function TabTwoScreen() {
-  useEffect(()=>{
-    initDb()
-    // loadLocalData()
-  })
+const CheckboxContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const TermsText = styled.Text`
+  font-size: 12px;
+  color: #999;
+`;
+
+const TermsLink = styled.Text`
+  color: red;
+`;
+
+const Button = styled.TouchableOpacity`
+  width: 100%;
+  background-color: #ff3b3f;
+  padding: 15px;
+  border-radius: 10px;
+  align-items: center;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+`;
+
+const Footer = styled.Text`
+  margin-top: 20px;
+  color: #999;
+`;
+
+const LoginLink = styled.Text`
+  color: red;
+`;
+
+const RegisterScreen = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
-    <Text>SALUT</Text>
-    
-)
-}
+    <Container>
+      <Title>Payement</Title>
+      <Subtitle>payanle via mobile money</Subtitle>
 
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
+      <InputContainer>
+        <InputWrapper>
+          <FontAwesome5 name="user" size={20} color="#999" />
+          <Input placeholder="Matricule voiture" />
+        </InputWrapper>
+      </InputContainer>
+
+      <InputContainer>
+        <InputWrapper>
+          <MaterialIcons name="email" size={20} color="#999" />
+          <Input placeholder="email pour envoye doc" keyboardType="email-address" />
+        </InputWrapper>
+      </InputContainer>
+      <InputContainer>
+        <InputWrapper>
+          <FontAwesome5 name="lock" size={20} color="#999" />
+          <Input placeholder="label" secureTextEntry />
+        </InputWrapper>
+      </InputContainer>
+      <InputContainer>
+        <InputWrapper>
+          <Feather name="phone" size={20} color="#999" />
+          <Input placeholder="montant" keyboardType="phone-pad" />
+        </InputWrapper>
+      </InputContainer>
+
+      
+
+
+
+      <Button>
+        <ButtonText>Payer maintenant  →</ButtonText>
+      </Button>
+
+
+    </Container>
+  );
+};
+
+export default RegisterScreen;

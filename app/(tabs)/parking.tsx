@@ -16,6 +16,7 @@ const data = [
 
 const ExploreScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<"today" | "past">("today");
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -31,12 +32,23 @@ const ExploreScreen = () => {
         <SearchInput placeholder="Search" placeholderTextColor="#8A96BC" />
       </SearchBar>
       <TabContainer>
-        <ActiveTab>
+      <TouchableOpacity  onPress={() => setActiveTab("today")}>
+      {activeTab === "today"? <ActiveTab>
           <TabTextActive>Aujourd'hui</TabTextActive>
           <RedDot />
-        </ActiveTab>
-        <TabText>Terminé</TabText>
-        <TabText>Depassé</TabText>
+        </ActiveTab> : <TabText>Aujourd'hui</TabText>}
+        
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={() => setActiveTab("past")}>
+      {activeTab === "past"? <ActiveTab>
+        <RedDot />
+          <TabTextActive>Depassé</TabTextActive>
+          
+        </ActiveTab> : <TabText>Depassé</TabText>}
+        
+        </TouchableOpacity>
+        
+      
       </TabContainer>
       <FlatList
         data={data}
@@ -207,6 +219,7 @@ const FloatingButton = styled.TouchableOpacity`
 `;
 const TabContainer = styled.View`
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 `;
